@@ -1,51 +1,47 @@
 package tictactoe;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
 
-        String gameInput = "";
-        while (!gameInput.matches("^[XO_]{9}$")) {
-            gameInput = scanner.nextLine();
-        }
-        char[] charArray = gameInput.toCharArray();
         char[][] gameArray = new char[3][3];
-
-        for (int i = 0; i < charArray.length; i++) {
-            int row = i / 3;
-            int column = i % 3;
-            gameArray[row][column] = charArray[i];
+        for (char[] chars : gameArray) {
+            Arrays.fill(chars, ' ');
         }
 
-        showGameArray(gameArray);
-        System.out.println("Please enter the coordinates of your move:");
-        int[] playerCoord;
+        boolean toogle = false;
+        boolean winner = false;
 
         do {
-            playerCoord = checkPlayerInput();
-            if (checkOccupied(gameArray, playerCoord)) {
-                System.out.println("This cell is occupied! Choose another one!");
+            toogle = !toogle;
+            showGameArray(gameArray);
+            char currentPlayer = toogle ? 'X' : 'O';
+            int[] playerCoord;
+            do {
+                playerCoord = checkPlayerInput();
+                if (checkOccupied(gameArray, playerCoord)) {
+                    System.out.println("This cell is occupied! Choose another one!");
+                }
+            } while (checkOccupied(gameArray, playerCoord));
+
+            makeAMove(gameArray, playerCoord, currentPlayer);
+            if (checkThreeInARow(gameArray, currentPlayer)) {
+                winner = true;
+            } else if (checkFull(gameArray)) {
+                break;
             }
-        } while (checkOccupied(gameArray, playerCoord));
-
-        makeAMove(gameArray, playerCoord);
+        } while (!winner) ;
         showGameArray(gameArray);
-
-/*        if (!checkThreeInARow(gameArray, 'X') && !checkThreeInARow(gameArray, 'O') && checkEmptyCell(charArray) && !checkPlayDifference(charArray)) {
-            System.out.println("Game not finished");
-        } else if (!checkThreeInARow(gameArray, 'X') && !checkThreeInARow(gameArray, 'O') && !checkEmptyCell(charArray)){
+        if (winner) {
+        char winnerIs = toogle ? 'X' : 'O';
+        System.out.println(winnerIs + " wins");
+        } else {
             System.out.println("Draw");
-        } else if (checkThreeInARow(gameArray, 'X') && !checkThreeInARow(gameArray, 'O')) {
-            System.out.println("X wins");
-        } else if (checkThreeInARow(gameArray, 'O') && !checkThreeInARow(gameArray, 'X')) {
-            System.out.println("O wins");
-        } else if (checkThreeInARow(gameArray, 'X') && checkThreeInARow(gameArray, 'O') || checkPlayDifference(charArray)) {
-            System.out.println("Impossible");
-        }*/
-
+        }
     }
+
 
     public static int[] checkPlayerInput() {
         Scanner scanner = new Scanner(System.in);
@@ -71,27 +67,12 @@ public class Main {
         return playerChoice;
     }
 
-    public static void makeAMove(char[][] gameArray, int[] playerChoice) {
-        gameArray[playerChoice[0]][playerChoice[1]] = 'X';
+    public static void makeAMove(char[][] gameArray, int[] playerChoice, char player) {
+        gameArray[playerChoice[0]][playerChoice[1]] = player;
     }
 
     public static boolean checkOccupied(char[][] gameArray, int[] playerMove) {
-        if (gameArray[playerMove[0]][playerMove[1]] == 'X' || gameArray[playerMove[0]][playerMove[1]] == 'O') {
-//            System.out.println("This cell is occupied! Choose another one!");
-            return true;
-        }
-        return false;
-    }
-
-    public static boolean checkEmptyCell(char[] charArray) {
-        boolean empty = false;
-        for (char c : charArray) {
-            if ('_' == c) {
-                empty = true;
-                break;
-            }
-        }
-        return empty;
+        return gameArray[playerMove[0]][playerMove[1]] == 'X' || gameArray[playerMove[0]][playerMove[1]] == 'O';
     }
 
     public static boolean checkThreeInARow(char[][] gameArray, char symbol) {
@@ -159,19 +140,22 @@ public class Main {
         System.out.println("---------");
     }
 
-    public static boolean  checkPlayDifference(char[] charArray) {
-        boolean playerDifference = false;
+    public static boolean checkFull(char[][] gameArray) {
+        boolean full = false;
         int x = 0, o = 0;
-        for (char player : charArray) {
-            if ('X' == player) {
-                x++;
-            } else if ('O' == player) {
-                o++;
+
+        for (int i = 0; i < gameArray.length; i++) {
+            for (int j = 0; j < gameArray[0].length; j++) {
+                if (gameArray[i][j] == 'X') {
+                    x++;
+                } else if (gameArray[i][j] == 'O') {
+                    o++;
+                }
             }
         }
-        if ((x - o) > 1 || o - x > 1) {
-            playerDifference = true;
+        if (x + o == 9) {
+            full = true;
         }
-        return playerDifference;
+        return full;
     }
 }

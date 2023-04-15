@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TicTacToeTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2023-04-15T10:28:37" hostname="7KLCLL3" time="0.053">
+<testsuite name="TicTacToeTest" tests="1" skipped="0" failures="1" errors="0" timestamp="2023-04-15T13:34:46" hostname="7KLCLL3" time="0.085">
   <properties/>
-  <testcase name="start" classname="TicTacToeTest" time="0.053">
+  <testcase name="start" classname="TicTacToeTest" time="0.085">
     <failure message="java.lang.AssertionError: Error in test #1&#10;&#10;There are 2 classes with main method: tictactoe.Main, tictactoe.checkEmptyCell.&#10;Leave only one of them to be executed." type="java.lang.AssertionError">java.lang.AssertionError: Error in test #1
 
 There are 2 classes with main method: tictactoe.Main, tictactoe.checkEmptyCell.
