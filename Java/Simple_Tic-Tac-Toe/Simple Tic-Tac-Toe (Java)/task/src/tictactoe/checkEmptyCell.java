@@ -2,15 +2,15 @@ package tictactoe;
 
 import java.util.Scanner;
 
-public class Main {
+public class checkEmptyCell {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        String gameInput = "";
-        while (!gameInput.matches("^[XO_]{9}$")) {
-            gameInput = scanner.nextLine();
+        String playerInput = "";
+        while (!playerInput.matches("^[XO_]{9}$")) {
+            playerInput = scanner.nextLine();
         }
-        char[] charArray = gameInput.toCharArray();
+        char[] charArray = playerInput.toCharArray();
         char[][] gameArray = new char[3][3];
 
         for (int i = 0; i < charArray.length; i++) {
@@ -20,20 +20,8 @@ public class Main {
         }
 
         showGameArray(gameArray);
-        System.out.println("Please enter the coordinates of your move:");
-        int[] playerCoord;
 
-        do {
-            playerCoord = checkPlayerInput();
-            if (checkOccupied(gameArray, playerCoord)) {
-                System.out.println("This cell is occupied! Choose another one!");
-            }
-        } while (checkOccupied(gameArray, playerCoord));
-
-        makeAMove(gameArray, playerCoord);
-        showGameArray(gameArray);
-
-/*        if (!checkThreeInARow(gameArray, 'X') && !checkThreeInARow(gameArray, 'O') && checkEmptyCell(charArray) && !checkPlayDifference(charArray)) {
+        if (!checkThreeInARow(gameArray, 'X') && !checkThreeInARow(gameArray, 'O') && checkEmptyCell(charArray) && !checkPlayDifference(charArray)) {
             System.out.println("Game not finished");
         } else if (!checkThreeInARow(gameArray, 'X') && !checkThreeInARow(gameArray, 'O') && !checkEmptyCell(charArray)){
             System.out.println("Draw");
@@ -43,46 +31,10 @@ public class Main {
             System.out.println("O wins");
         } else if (checkThreeInARow(gameArray, 'X') && checkThreeInARow(gameArray, 'O') || checkPlayDifference(charArray)) {
             System.out.println("Impossible");
-        }*/
-
-    }
-
-    public static int[] checkPlayerInput() {
-        Scanner scanner = new Scanner(System.in);
-
-        String playerInput = "";
-        int[] playerChoice = new int[2];
-
-        while (!playerInput.matches("^[0-9] [0-9]$") || !playerInput.matches("^[1-3] [1-3]$")) {
-            playerInput = scanner.nextLine();
-            if (!playerInput.matches("^[0-9] [0-9]$")) {
-                System.out.println("You should enter numbers!");
-            } else if (!playerInput.matches("^[1-3] [1-3]$")) {
-                System.out.println("Coordinates should be from 1 to 3!");
-            } else {
-            String[] playerInputSplit = playerInput.split(" ");
-            for (int i = 0; i < 2; i++) {
-                playerChoice[i] = Integer.parseInt(playerInputSplit[i]);
-            }
-            playerChoice[0]--;
-            playerChoice[1]--;
         }
-    }
-        return playerChoice;
-    }
 
-    public static void makeAMove(char[][] gameArray, int[] playerChoice) {
-        gameArray[playerChoice[0]][playerChoice[1]] = 'X';
-    }
 
-    public static boolean checkOccupied(char[][] gameArray, int[] playerMove) {
-        if (gameArray[playerMove[0]][playerMove[1]] == 'X' || gameArray[playerMove[0]][playerMove[1]] == 'O') {
-//            System.out.println("This cell is occupied! Choose another one!");
-            return true;
-        }
-        return false;
     }
-
     public static boolean checkEmptyCell(char[] charArray) {
         boolean empty = false;
         for (char c : charArray) {
@@ -157,9 +109,10 @@ public class Main {
             System.out.println("|");
         }
         System.out.println("---------");
+
     }
 
-    public static boolean  checkPlayDifference(char[] charArray) {
+    public static boolean checkPlayDifference(char[] charArray) {
         boolean playerDifference = false;
         int x = 0, o = 0;
         for (char player : charArray) {

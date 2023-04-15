@@ -299,5 +299,12 @@ files:
     }
   learner_created: false
 feedback_link: https://hyperskill.org/learn/step/5400#comment
-status: Unchecked
+status: Failed
+feedback:
+  message: |-
+    Error in test #1
+
+    There are 2 classes with main method: tictactoe.Main, tictactoe.checkEmptyCell.
+    Leave only one of them to be executed.
+  time: "Sat, 15 Apr 2023 10:28:37 UTC"
 record: -1
